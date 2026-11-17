@@ -1,0 +1,119 @@
+{
+  "mcpVersion": "2025-03-26",
+  "name": "digitalpassport-by",
+  "title": "Цифровой паспорт компании (digitalpassport.by)",
+  "description": "MCP-сервер открытого реестра проверяемых паспортов белорусских компаний (ГРП МНС, ЕГР Минюста, ФСЗН, БелГИЭ, WHOIS, услуги и FAQ).",
+  "homepage": "https://digitalpassport.by",
+  "transport": {
+    "type": "streamable-http",
+    "endpoint": "https://digitalpassport.by/api/mcp"
+  },
+  "webmcp": {
+    "supported": true,
+    "interfaces": [
+      "document.modelContext",
+      "navigator.modelContext",
+      "declarative-forms"
+    ]
+  },
+  "tools": [
+    {
+      "name": "get_company_passport",
+      "description": "Получить проверяемый цифровой паспорт белорусской компании по 9-значному УНП или слагу карточки. Инструмент только читает уже опубликованные паспорта и ничего не создаёт.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "description": "9 цифр УНП (например, 693300245) или слаг компании (например, 693300245-dadrio)"
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "json",
+              "markdown"
+            ],
+            "description": "Формат ответа: структурированный json или готовый markdown-документ"
+          }
+        },
+        "required": [
+          "identifier"
+        ]
+      }
+    },
+    {
+      "name": "search_belarus_companies",
+      "description": "Поиск белорусских организаций по названию, бренду, УНП, городу или специализации из графа знаний. Работает строго в режиме чтения.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Название организации, бренд, услуга или 9 цифр УНП"
+          },
+          "city": {
+            "type": "string",
+            "description": "Город или слаг города для фильтрации"
+          },
+          "category": {
+            "type": "string",
+            "description": "Слаг отраслевой рубрики"
+          },
+          "specialization": {
+            "type": "string",
+            "description": "Слаг или название специализации из графа знаний"
+          },
+          "verified": {
+            "type": "boolean",
+            "description": "Только организации со статусом «Верифицировано»"
+          },
+          "has_site": {
+            "type": "boolean",
+            "description": "Только организации с подтверждённым официальным сайтом"
+          },
+          "min_years": {
+            "type": "integer",
+            "enum": [
+              5,
+              10
+            ],
+            "description": "Минимальный возраст компании на рынке в годах (5 или 10)"
+          }
+        }
+      }
+    },
+    {
+      "name": "explore_knowledge_graph",
+      "description": "Просмотр двухуровневого графа знаний белорусского бизнеса: широких направлений и канонических специализаций с количеством подтверждённых компаний. Работает строго в режиме чтения.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "family": {
+            "type": "string",
+            "description": "Слаг широкого направления для получения дочерних специализаций"
+          },
+          "query": {
+            "type": "string",
+            "description": "Поисковый запрос по названию специализации"
+          }
+        }
+      }
+    },
+    {
+      "name": "verify_belarus_unp",
+      "description": "Проверить математическую контрольную сумму 9-значного УНП Беларуси и определить регион регистрации.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "unp": {
+            "type": "string",
+            "description": "9 цифр УНП для проверки"
+          }
+        },
+        "required": [
+          "unp"
+        ]
+      }
+    }
+  ]
+}
