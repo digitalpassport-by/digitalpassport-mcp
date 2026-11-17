@@ -1,0 +1,17 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
+  "name": "by.digitalpassport/registry-mcp",
+  "description": "Read-only MCP server and REST API client specification for querying verified Belarusian company profiles by UNP, legal status, services, and industry knowledge graph.",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/digitalpassport-by/digitalpassport-mcp",
+    "source": "github"
+  },
+  "version": "1.2.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://digitalpassport.by/api/mcp"
+    }
+  ]
+}
